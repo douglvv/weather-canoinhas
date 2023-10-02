@@ -39,12 +39,12 @@ export default function Weather() {
 
     return (
         <>
-            <MDBContainer>
-                <MDBRow className="d-flex justify-content-center align-items-center">
+            <MDBContainer className="h-100">
+                <MDBRow className="justify-content-center align-items-center m-3">
                     <MDBCol md="8" lg="6" xl="4">
                         <MDBCard style={{ color: "#4B515D", borderRadius: "35px" }}>
                             <MDBCardBody className="p-4">
-                                <div className="d-flex justify-content-center align-items-center">
+                                <div className="d-flex justify-content-center align-items-center text-center">
                                     <ul className="list-unstyled mb-0">
                                         <li>
                                             <MDBTypography tag="h2" className="flex-grow-1">
@@ -67,15 +67,17 @@ export default function Weather() {
                                     >
                                         {weatherData.temp} ºC
                                     </MDBTypography>
-                                    <h4>
-                                        {weatherData.weather}
+                                    <div className="d-flex flex-row align-items-center justify-content-center text-center">
+                                        <h4>
+                                            {weatherData.weather}
+                                        </h4>
                                         <img
                                             src={`http://openweathermap.org/img/wn/${weatherData.weather_icon}.png`}
                                             width="50px"
                                             alt="Weather Icon"
                                             className="custom-drop-shadow"
                                         />
-                                    </h4>
+                                    </div>
                                 </div>
 
                                 <div className="d-flex align-items-center justify-content-center mb-5">
