@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdb-react-ui-kit';
 import axios from 'axios';
+import EditDeleteData from './EditDeleteData';
 
 function WeatherForm() {
     const [selectedDate, setSelectedDate] = useState('');
@@ -13,14 +14,21 @@ function WeatherForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Cria um objeto da data e converte  para String ISO
         const date = new Date(selectedDate).toISOString();
-
-        console.log(date)
         
         const res = await axios.post('http://localhost:4000/searchWeatherData', {date: date})
 
+        // Converte para o horário local
+        res.data.datetime = new Date(res.data.datetime).toLocaleTimeString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
         setWeatherData(res.data)
-        console.log(res);
     };
 
     return (
@@ -34,7 +42,7 @@ function WeatherForm() {
                                 value={selectedDate}
                                 onChange={handleDateChange}
                             />
-                            <MDBBtn type="submit" color="primary" className="">
+                            <MDBBtn type="submit" color="primary">
                                 Pesquisar
                             </MDBBtn>
                         </div>
@@ -44,15 +52,9 @@ function WeatherForm() {
 
       {
         weatherData && (
-            <MDBRow className="justify-content-center mt-4">
-                <MDBCol md="6">
-                    {/* Display the fetched weather data here */}
-                    <div>Date & Time: {weatherData.datetime}</div>
-                    <div>Temperature (ºC): {weatherData.temp}</div>
-                    <div>Weather: {weatherData.weather}</div>
-                    {/* Add Edit and Delete buttons here */}
-                </MDBCol>
-            </MDBRow>
+            <div className='mt-5 d-flex justify-content-center'>                
+                <EditDeleteData {...weatherData} />
+            </div>
         )
     }
     </MDBContainer >
