@@ -1,6 +1,22 @@
+import axios from 'axios';
 import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditDeleteData(weatherData) {
+    const navigate = useNavigate()
+
+    const handleDelete = async () => {
+        try {
+            const res = await axios.delete(`http://localhost:4000/deleteWeatherData/${weatherData._id}`)
+
+            navigate('/pesquisar');
+            alert(res.data)            
+        } catch (error) {
+            console.log(error)
+            alert(error.message)
+        }
+    }
+
     return (
         <>
             <MDBTable align='middle'>
@@ -27,7 +43,7 @@ export default function EditDeleteData(weatherData) {
                                 {weatherData.datetime}
                             </p>
                         </td>
-                        
+
                         <td>
                             <img
                                 src={`http://openweathermap.org/img/wn/${weatherData.weather_icon}.png`}
@@ -57,7 +73,7 @@ export default function EditDeleteData(weatherData) {
                             <MDBBtn color='primary' rounded size='sm'>
                                 Edit
                             </MDBBtn>
-                            <MDBBtn color='danger' rounded size='sm'>
+                            <MDBBtn color='danger' onClick={handleDelete} rounded size='sm'>
                                 Delete
                             </MDBBtn>
                         </td>

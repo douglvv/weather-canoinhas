@@ -16,8 +16,10 @@ function WeatherForm() {
 
         // Cria um objeto da data e converte  para String ISO
         const date = new Date(selectedDate).toISOString();
-        
-        const res = await axios.post('http://localhost:4000/searchWeatherData', {date: date})
+
+        const res = await axios.post('http://localhost:4000/searchWeatherData', { date: date })
+
+        console.log(res)
 
         // Converte para o horário local
         res.data.datetime = new Date(res.data.datetime).toLocaleTimeString('pt-BR', {
@@ -29,15 +31,23 @@ function WeatherForm() {
         });
 
         setWeatherData(res.data)
+
     };
+
+
+    // TODO: Mensagens de sucesso e reload no component ao excluir
+    // TODO: Mensagem de erro se der erro na req
+    // TODO: Edit Data
 
     return (
         <MDBContainer>
-            <MDBRow className="justify-content-center mt-5">
+            <h3 className='text-center mt-5'>Pesquisar Registro</h3>
+            <MDBRow className="justify-content-center mt-3">
                 <MDBCol md="6">
                     <form onSubmit={handleSubmit}>
                         <div className="d-flex m-2">
                             <MDBInput
+                                required
                                 type="datetime-local"
                                 value={selectedDate}
                                 onChange={handleDateChange}
@@ -50,15 +60,15 @@ function WeatherForm() {
                 </MDBCol>
             </MDBRow>
 
-      {
-        weatherData && (
-            <div className='mt-5 d-flex justify-content-center'>                
-                <EditDeleteData {...weatherData} />
-            </div>
-        )
-    }
-    </MDBContainer >
-  );
+            {
+                weatherData && (
+                    <div className='mt-5 d-flex justify-content-center'>
+                        <EditDeleteData {...weatherData} />
+                    </div>
+                )
+            }
+        </MDBContainer >
+    );
 }
 
 export default WeatherForm;
