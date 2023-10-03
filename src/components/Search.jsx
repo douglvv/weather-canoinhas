@@ -19,6 +19,7 @@ function WeatherForm() {
         
         const res = await axios.post('http://localhost:4000/searchWeatherData', {date: date})
 
+        setWeatherData(res.data)
         console.log(res);
     };
 
