@@ -5,13 +5,14 @@ import {
     MDBBreadcrumbItem,
     MDBNavbarBrand
 } from 'mdb-react-ui-kit';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     return (
         <>
             <MDBNavbar light bgColor='light'>
                 <MDBContainer>
-                    <MDBNavbarBrand href='#'>
+                    <MDBNavbarBrand href='/'>
                         <img
                             src='/logo.png'
                             height='50'
@@ -28,10 +29,10 @@ export default function Navbar() {
                     <nav aria-label='breadcrumb'>
                         <MDBBreadcrumb>
                             <MDBBreadcrumbItem>
-                                <a href='/'>Home</a>
+                                <Link to={'/'}>Home</Link>
                             </MDBBreadcrumbItem>
                             <MDBBreadcrumbItem>
-                                <a href='/'>Pesquisar</a>
+                            <Link to={'/pesquisar'}>Pesquisar</Link>
                             </MDBBreadcrumbItem>
                         </MDBBreadcrumb>
                     </nav>
