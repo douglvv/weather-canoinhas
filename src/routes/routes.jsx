@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from "../screens/Home";
 import SearchScreen from '../screens/SearchScreen'
-import EditData from '../components/EditData';
+import EditDataScreen from '../screens/EditDataScreen';
 
 export default function AppRoutes() {
     return (
@@ -9,7 +9,7 @@ export default function AppRoutes() {
             <Routes>
                 <Route exact path="/" Component={Home} />
                 <Route exact path="/pesquisar" Component={SearchScreen} />
-                <Route exact path="/editar/:id" Component={EditData} />
+                <Route exact path="/editar/:id" Component={EditDataScreen} />
             </Routes>
         </BrowserRouter>
     )
