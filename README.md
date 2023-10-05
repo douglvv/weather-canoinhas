@@ -1,9 +1,15 @@
-# React + Vite
+# Requisitos do Cliente 2 (Consumidor)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A atividade consistirá em 3 aplicações distintas:
+• Cliente 2 (Consumidor): Uma segunda aplicação
+web, desktop, móvel ou terminal(¬¬) que permita
+aos usuários visualizar os dados.
 
-Currently, two official plugins are available:
+## Cliente 2 (Consumidor)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-# weather-canoinhas
+- Esta aplicação atua como um consumidor de dados.
+- Pode ser uma aplicação web, desktop, móvel ou terminal.
+- Permite aos usuários visualizar os dados gerados pelo Sensor (Cliente 1).
+- Os dados são recuperados do Web Service por meio de uma API.
+- Oferece uma interface amigável para os usuários visualizarem as informações, como temperatura, umidade e luminosidade.
+- Possui funcionalidades para a visualização e análise dos dados em tempo real ou histórico, conforme disponibilizado pelo Web Service.
