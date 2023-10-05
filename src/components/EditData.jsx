@@ -70,6 +70,7 @@ export default function EditData() {
                 navigate('/pesquisar');
             } else {
                 alert("Erro ao editar dados:", res.data);
+                navigate(`/editar/${id}`)
             }
         } catch (error) {
             console.log(error.message);
