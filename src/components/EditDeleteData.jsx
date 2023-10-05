@@ -1,15 +1,12 @@
 import axios from 'axios';
 import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import { useNavigate } from 'react-router-dom';
 
 export default function EditDeleteData(weatherData) {
-    const navigate = useNavigate()
 
     const handleDelete = async () => {
         try {
             const res = await axios.delete(`http://localhost:4000/deleteWeatherData/${weatherData._id}`)
 
-            navigate('/pesquisar');
             alert(res.data)            
         } catch (error) {
             console.log(error)
@@ -24,6 +21,7 @@ export default function EditDeleteData(weatherData) {
                     <tr>
                         <th scope='col'>Cidade</th>
                         <th scope='col'>Data</th>
+                        <th scope='col'>Data update</th>
                         <th scope='col'>Icon</th>
                         <th scope='col'>Desc.</th>
                         <th scope='col'>Temp.</th>
@@ -45,12 +43,15 @@ export default function EditDeleteData(weatherData) {
                         </td>
 
                         <td>
-                            <img
-                                src={`http://openweathermap.org/img/wn/${weatherData.weather_icon}.png`}
-                                width="45px"
-                                alt="Weather Icon"
-                                className="shadow rounded-circle"
-                            />
+                            <p className='fw-normal mb-1'>
+                                {weatherData.updatedAt.toLocale}
+                            </p>
+                        </td>
+
+                        <td>
+                        <p className='fw-normal mb-1'>
+                                {weatherData.weather_icon}
+                            </p>
                         </td>
 
                         <td>

@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBTable, MDBTableBody, MDBTableHead } from 'mdb-react-ui-kit';
 import axios from 'axios';
-import EditDeleteData from './EditDeleteData';
+import { useNavigate } from 'react-router-dom';
 
 function WeatherForm() {
     const [selectedDate, setSelectedDate] = useState('');
     const [weatherData, setWeatherData] = useState(null);
+    const navigate = useNavigate()
 
     const handleDateChange = (e) => {
         setSelectedDate(e.target.value);
@@ -14,30 +15,52 @@ function WeatherForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Cria um objeto da data e converte  para String ISO
-        const date = new Date(selectedDate).toISOString();
+        try {
+            // Cria um objeto da data e converte  para String ISO
+            const date = new Date(selectedDate).toISOString();
 
-        const res = await axios.post('http://localhost:4000/searchWeatherData', { date: date })
+            const res = await axios.post('http://localhost:4000/searchWeatherData', { date: date })
 
-        console.log(res)
+            // Converte para o horário local
+            res.data.datetime = new Date(res.data.datetime).toLocaleTimeString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
 
-        // Converte para o horário local
-        res.data.datetime = new Date(res.data.datetime).toLocaleTimeString('pt-BR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
+            res.data.updatedAt = new Date(res.data.updatedAt).toLocaleTimeString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
 
-        setWeatherData(res.data)
-
+            setWeatherData(res.data)
+        } catch (error) {
+            console.log(error.message)
+        }
     };
 
+    const handleDelete = async () => {
+        try {
+            const res = await axios.delete(`http://localhost:4000/deleteWeatherData/${weatherData._id}`)
 
-    // TODO: Mensagens de sucesso e reload no component ao excluir
-    // TODO: Mensagem de erro se der erro na req
-    // TODO: Edit Data
+            setWeatherData(null)
+            alert(res.data)
+        } catch (error) {
+            console.log(error)
+            alert(error.message)
+        }
+    }
+
+    const handleEdit = () => {
+        navigate(`/editar/${weatherData._id}`)
+    }
 
     return (
         <MDBContainer>
@@ -63,7 +86,72 @@ function WeatherForm() {
             {
                 weatherData && (
                     <div className='mt-5 d-flex justify-content-center'>
-                        <EditDeleteData {...weatherData} />
+                        <MDBTable align='middle'>
+                            <MDBTableHead>
+                                <tr>
+                                    <th scope='col'>Cidade</th>
+                                    <th scope='col'>Data</th>
+                                    <th scope='col'>Data update</th>
+                                    <th scope='col'>Icon</th>
+                                    <th scope='col'>Desc.</th>
+                                    <th scope='col'>Temp.</th>
+                                    <th scope='col'>Sens.</th>
+                                    <th scope='col'>Umid</th>
+                                    <th scope='col'>Actions</th>
+                                </tr>
+                            </MDBTableHead>
+                            <MDBTableBody>
+                                <tr>
+                                    <td>
+                                        <p className='fw-normal mb-1'>{weatherData.cidade}</p>
+                                    </td>
+
+                                    <td>
+                                        <p className='fw-normal mb-1'>
+                                            {weatherData.datetime}
+                                        </p>
+                                    </td>
+
+                                    <td>
+                                        <p className='fw-normal mb-1'>
+                                            {weatherData.updatedAt}
+                                        </p>
+                                    </td>
+
+                                    <td>
+                                        <p className='fw-normal mb-1'>
+                                            {weatherData.weather_icon}
+                                        </p>
+                                    </td>
+
+                                    <td>
+                                        <p>{weatherData.weather}</p>
+                                    </td>
+
+                                    <td>
+                                        <p className='fw-normal mb-1'>{weatherData.temp} ºC</p>
+                                    </td>
+
+                                    <td>
+                                        <p className='fw-normal mb-1'>{weatherData.sens_term} ºC</p>
+                                    </td>
+
+                                    <td>
+                                        <p className='fw-normal mb-1'>{weatherData.umid} %</p>
+                                    </td>
+
+                                    <td>
+                                        <MDBBtn color='primary' onClick={handleEdit} rounded size='sm'>
+                                            Edit
+                                        </MDBBtn>
+                                        <MDBBtn color='danger' onClick={handleDelete} rounded size='sm'>
+                                            Delete
+                                        </MDBBtn>
+                                    </td>
+
+                                </tr>
+                            </MDBTableBody>
+                        </MDBTable>
                     </div>
                 )
             }
