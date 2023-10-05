@@ -26,7 +26,6 @@ export default function EditData() {
         const fetchData = async () => {
             const res = await axios.get(`http://localhost:4000/getWeatherById/${id}`);
 
-            // Convert to the local time
             res.data.datetime = new Date(res.data.datetime).toLocaleTimeString('pt-BR', {
                 day: '2-digit',
                 month: '2-digit',
@@ -40,7 +39,7 @@ export default function EditData() {
             setCidade(res.data.cidade);
             setDatetime(res.data.datetime);
             setWeather(res.data.weather);
-            setIcon(res.data.icon);
+            setIcon(res.data.weather_icon);
             setTemp(res.data.temp);
             setSensTerm(res.data.sens_term);
             setUmid(res.data.umid);
@@ -53,12 +52,12 @@ export default function EditData() {
 
         try {
             const dataISO = new Date(datetime).toISOString();
-            console.log(dataISO)
+            
             const updatedWeatherData = {
                 cidade,
                 datetime: dataISO,
                 weather,
-                icon,
+                weather_icon: icon,
                 temp,
                 sens_term: sensTerm,
                 umid,
@@ -97,7 +96,7 @@ export default function EditData() {
                                 <MDBInput className='mb-4' type='text' id='weather' name='weather' label='Desc' value={weather} onChange={(e) => setWeather(e.target.value)} />
                             </MDBCol>
                             <MDBCol>
-                                <MDBInput className='mb-4' type='text' id='icon' name='icon' label='Icon' value={icon} onChange={(e) => setIcon(e.target.value)} />
+                            <MDBInput className='mb-4' type='text' id='icon' name='icon' label='Icon' value={icon} onChange={(e) => setIcon(e.target.value)} />
                             </MDBCol>
                         </MDBRow>
 
